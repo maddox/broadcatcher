@@ -79,11 +79,267 @@ end
 
 module Broadcatcher::Controllers
 
+
+  class Style < R '/styles.css'
+    def get
+      @headers["Content-Type"] = "text/css; charset=utf-8"
+        @body = %{
+
+          /* Main Tags */
+
+          body {
+          	font-size: 62.5%; /* Resets 1em to 10px */
+          	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+          	background-color: #9da08f;
+          	color: #333;
+          	margin: 0;
+          	}
+
+
+          a{
+            color: #fbd819;
+            text-decoration: none;
+          }
+
+          a:hover{
+            color: #fa5c4b;
+          }
+
+          table {
+          	margin:				0;
+          	width:				100%;
+          	border:				none;
+          	border-collapse:	collapse;
+          	font-size:			1em;
+          	}
+
+          	table td {
+          	padding:			0;
+          	}
+
+          	table th {
+          	text-align:			left;
+          	}
+
+
+          /* Structure */
+
+          #wrapper{
+
+          }
+
+          #header{
+            background-color: #000;
+            padding: .5em;
+            border-bottom: 4px solid #4c4c4c;
+            margin-bottom: 2em;
+            }
+            #header h1{
+              color: #fbd819;
+              margin: 0;
+              font-size: 2.4em;
+              margin-left: 1em;
+            }
+            #header h1 a{
+              font-weight: normal;
+            	border: 0;
+            	text-decoration: none;
+            }
+            #header ul{
+              display: inline;
+            	list-style: none;
+            	padding: 0;
+            	margin: 0;
+            	margin-top: 0.9em;
+            	float: right;
+            }
+            	#header ul li{
+            		padding: 0;
+            		margin: 0;
+            	  margin-right: 1em;
+            	  float: left;
+
+            	}
+            	#header ul li a{
+            	  display: block;
+            	}
+
+
+          #content{
+            padding: 0 20px;
+            font-size: 14px;
+
+          }
+          
+          
+
+          ul#nav{
+            margin: auto;
+            list-style: none;
+            text-align: center;
+          }
+            ul#nav li{
+              width: 300px;
+              margin: auto;
+              border: 3px #000000 solid;
+              margin-bottom: 5px;
+            }
+            ul#nav li a{
+              color: #0f0f0f;
+              background-color: #8e9e9f;
+              padding: 10px;
+              font-size: 20px;
+              display: block;
+            }
+            ul#nav li a:hover{
+              background-color: #818f91;
+            }
+            
+            
+            .data_table {
+            	margin:				0 0 1em 0;
+            	font-size: 16px;
+            	}
+
+            .data_table th,
+            .data_table td {
+            	padding:			3px 10px;
+            	}
+
+            .data_table th {
+            	color:				#fff;
+            	background-color:			#58564f;
+            	}
+
+            .data_table th:last-child {
+            	background-color: 		#58564f;
+            }
+
+            .data_table td {
+            	background:			#fff;
+            	border-bottom:		#ccb 1px solid;
+            	}
+
+            	.data_table tr:last-child td {
+            	border-bottom:		none;
+            	}
+
+            	.data_table tr.alt td {
+            	background:			#eee;
+            	}
+
+            .data_table .totals th,
+            .data_table .totals td {
+            	border-top:			#d6d5c7 1px solid;
+            	border-left:		#d6d5c7 1px solid;
+            	color:				#fff;
+            	text-align:			right;
+            	background:			#332;
+            	}
+
+
+            	.data_table tr td.empty,
+            	.data_table tr.totals td.empty  {
+            	border: 			none;
+            	background:			transparent;
+            	}
+
+            	.data_table tr td{
+            		vertical-align: middle;
+            	}
+              
+              .data_table td a{
+                color: #58564f;
+              }
+
+
+          /* Various Helper Classes */
+
+          .alignright {
+          	float: right;
+          	}
+
+          .centered {
+          	text-align: center;
+          	}
+
+          .alignleft {
+          	float: left
+          	}
+
+          img.centered {
+          	display: block;
+          	margin-left: auto;
+          	margin-right: auto;
+          	}
+
+          img.spaced {
+          	padding: 4px;
+          	margin: 4px;
+          	}
+
+          img.alignright {
+          	padding: 4px;
+          	margin: 0 0 2px 7px;
+          	display: inline;
+          	}
+
+          img.alignleft {
+          	padding: 4px;
+          	margin: 0 7px 2px 0;
+          	display: inline;
+          	}
+
+          .clearfix:after {
+            content: "."; 
+            display: block; 
+            height: 0; 
+            clear: both; 
+            visibility: hidden;
+          }
+
+          /* Typography & Colors */
+
+          .red{
+          	color: #fbd819;
+          }
+
+
+          input.long{
+            width: 80%;
+          }
+
+          input.medium{
+            width: 25em;
+          }
+          
+          input.small{
+            width: 5em;
+          }
+
+
+          input.large{
+            font-size: 2em;
+          }
+
+
+
+        }
+    end
+  end
+
   # The root slash shows the `index' view.
   class Index < R '/'
     def get
-      @passes = Pass.find(:all) 
       render :index 
+    end
+  end
+
+  # The root slash shows the `index' view.
+  class List < R '/list'
+    def get
+      @passes = Pass.find(:all) 
+      render :list 
     end
   end
 
@@ -103,9 +359,8 @@ module Broadcatcher::Controllers
     end
     
     def post
-      pass = Pass.create(:title => input.pass_title, :season => input.pass_season, :length_id => input.pass_length, :next_episode => input.pass_next_episode, :quality_id => input.pass_quality)
-      
-      redirect Show, pass
+      pass = Pass.create(input)
+      redirect List
     end
 
   end
@@ -122,9 +377,9 @@ module Broadcatcher::Controllers
     def post pass_id
       
       pass = Pass.find(pass_id)
-      pass.update_attributes(:title => input.pass_title, :season => input.pass_season, :length_id => input.pass_length, :next_episode => input.pass_next_episode, :quality_id => input.pass_quality)
+      pass = pass.update_attributes(input)
 
-      redirect Show, pass
+      redirect List
     end
 
   end
@@ -135,7 +390,7 @@ module Broadcatcher::Controllers
       @pass = Pass.find(pass_id)
       @pass.destroy
       
-      redirect Index      
+      redirect List
     end
   end
   
@@ -179,29 +434,48 @@ module Broadcatcher::Views
   # `self << yield' is where the HTML is inserted.
   def layout
     html do
-      title { 'My HomePage' }
-      body { self << yield + _nav }
+      head do
+        title "TV Station" 
+        link :rel => 'stylesheet', :type => 'text/css', :href => '/styles.css', :media => 'all'
+      end
+      body do
+        div(:id => 'header', :class => 'clearfix') do 
+          _sub_nav
+          h1 {a 'TV Station', :href => R(Index) }
+        end
+        div(:id => 'content') do
+          self << yield
+        end
+      end 
     end
   end
 
   # The `index' view.  Inside your views, you express
   # the HTML in Ruby.  See http://code.whytheluckystiff.net/markaby/.
   def index
-    
+    _nav
+  end
 
-    h1 do
-      "Season Passes"
-    end
-    
-    ul do
+  def list
+    p { a 'New Season Pass', :href => R(Add) }
+    table(:class => 'data_table') do
+      tr do
+        th 'Show'
+        th 'Duration'
+        th 'Quality'
+        th 'Next Episode'
+        th 'Manage'
+      end
       @passes.each do |pass|
-        li do 
-          a pass.title, :href => R(Show, pass) 
+        tr do
+          td {a(:href => R(Show, pass)){ pass.title}}
+          td pass.length.title
+          td pass.quality.title
+          td pass.next_episode
+          td {a(:href => R(Edit, pass)){'Edit'} + " / " + a(:href => R(Delete, pass)){'Delete'} }
         end
       end
     end
-    
-    p { a 'New Season Pass', :href => R(Add) }
     
     
   end
@@ -251,24 +525,39 @@ module Broadcatcher::Views
     h1 'Settings'
     
     form({:method => 'post'}) do
-      label 'Download Directory', :for => 'setting_download_directory'; br
-      input :name => 'setting_download_directory', :type => 'text', :value => @settings["download_directory"]; br
+      p do
+        label 'Download Directory', :for => 'setting_download_directory'; br
+        input :name => 'setting_download_directory', :type => 'text', :value => @settings["download_directory"]; br
+      end
 
-      label 'Newzbin Username', :for => 'setting_newzbin_username'; br
-      input :name => 'setting_newzbin_username', :type => 'text', :value => @settings["newzbin_username"]; br
+      p do
+        label 'Newzbin Username', :for => 'setting_newzbin_username'; br
+        input :name => 'setting_newzbin_username', :type => 'text', :value => @settings["newzbin_username"]; br
+      end
 
-      label 'Newzbin Password', :for => 'setting_newzbin_password'; br
-      input :name => 'setting_newzbin_password', :type => 'password', :value => @settings["newzbin_password"]; br
+      p do
+        label 'Newzbin Password', :for => 'setting_newzbin_password'; br
+        input :name => 'setting_newzbin_password', :type => 'password', :value => @settings["newzbin_password"]; br
+      end
 
-      input :type => 'submit'
+      p do
+        input( :type => 'submit', :value => 'Save Changes') + " or " + a(:href => R(Index)){'cancel'}
+      end
     end
   end
   
   # partials
   
-  def _nav
+  def _sub_nav
     ul do
-      li { a 'Season Passes', :href => R(Index)}
+      li { a 'Settings', :href => R(Settings)}
+    end
+  end
+
+
+  def _nav
+    ul(:id => 'nav') do
+      li { a 'Season Passes', :href => R(List)}
       li { a 'To Do', :href => R(Todo)}
       li { a 'Run Scan', :href => R(Run)}
       li { a 'Settings', :href => R(Settings)}
@@ -277,25 +566,39 @@ module Broadcatcher::Views
   
   def _form
     form({:method => 'post'}) do
-      label 'Title', :for => 'pass_title'; br
-      input :name => 'pass_title', :type => 'text', :value => pass.title; br
+      p do
+        label 'Title', :for => 'title'; br
+        input :name => 'title', :type => 'text', :value => pass.title; br
+      end
 
-      label 'Season', :for => 'pass_season'; br
-      input :name => 'pass_season', :type => 'text', :value => pass.season; br
+      p do
+        label 'Season', :for => 'season'; br
+        input :name => 'season', :class => 'small', :type => 'text', :value => pass.season;
+      end
 
-      label 'Length', :for => 'pass_length'; br
-      collection_select(pass, 'length', @lengths, 'id', 'title')
-      br
+      p do
+        label 'Length', :for => 'length_id'; br
+        collection_select(pass, 'length_id', @lengths, 'id', 'title')
+      end
 
-      label 'Quality', :for => 'pass_quality'; br
-      collection_select(pass, 'quality', @qualities, 'id', 'title')
-      br
-      
-      label 'Next Episode', :for => 'pass_next_episode'; br
-      input :name => 'pass_next_episode', :type => 'text', :value => pass.next_episode; br
+      p do
+        label 'Quality', :for => 'quality_id'; br
+        collection_select(pass, 'quality_id', @qualities, 'id', 'title')
+      end
 
-      input :type => 'hidden', :name => 'pass_id', :value => pass.object_id
-      input :type => 'submit'
+      p do
+        label 'Next Episode', :for => 'next_episode'; br
+        input :name => 'next_episode', :class => 'small', :type => 'text', :value => pass.next_episode; br
+      end
+
+      p do
+        if @pass.new_record?
+          input(:type => 'submit', :value => 'Create Season Pass') + " or " + a(:href => R(List)){'cancel'}
+        else
+          input(:type => 'submit', :value => 'Save Changes') + " or " + a(:href => R(List)){'cancel'}
+        end
+        
+      end
     end
     
   end
@@ -303,9 +606,9 @@ module Broadcatcher::Views
   # helpers
   
   def collection_select(object, method, collection, value_method, text_method)
-    select :name => "#{object.class.name.split(/::/).last.downcase}_#{method}" do
+    select :name => "#{method}" do
       collection.each do |item|
-        if item == object.send(method)
+        if item.send(value_method) == object.send(method)
           option(:value => item.send(value_method), :selected => 'selected') { item.send(text_method) }
         else
           option(:value => item.send(value_method)) { item.send(text_method) }
