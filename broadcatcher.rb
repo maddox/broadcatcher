@@ -284,11 +284,11 @@ module Broadcatcher::Views
       input :name => 'pass_season', :type => 'text', :value => pass.season; br
 
       label 'Length', :for => 'pass_length'; br
-      collection_select(pass, :length, @lengths, 'id', 'title')
+      collection_select(pass, 'length', @lengths, 'id', 'title')
       br
 
       label 'Quality', :for => 'pass_quality'; br
-      collection_select(pass, :quality, @qualities, 'id', 'title')
+      collection_select(pass, 'quality', @qualities, 'id', 'title')
       br
       
       label 'Next Episode', :for => 'pass_next_episode'; br
@@ -305,7 +305,7 @@ module Broadcatcher::Views
   def collection_select(object, method, collection, value_method, text_method)
     select :name => "#{object.class.name.split(/::/).last.downcase}_#{method}" do
       collection.each do |item|
-        if item.send(value_method) == object.send(method).object_id
+        if item == object.send(method)
           option(:value => item.send(value_method), :selected => 'selected') { item.send(text_method) }
         else
           option(:value => item.send(value_method)) { item.send(text_method) }
