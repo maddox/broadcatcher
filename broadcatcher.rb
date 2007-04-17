@@ -294,7 +294,7 @@ module Broadcatcher::Views
       label 'Next Episode', :for => 'pass_next_episode'; br
       input :name => 'pass_next_episode', :type => 'text', :value => pass.next_episode; br
 
-      input :type => 'hidden', :name => 'pass_id', :value => pass.id
+      input :type => 'hidden', :name => 'pass_id', :value => pass.object_id
       input :type => 'submit'
     end
     
@@ -305,7 +305,7 @@ module Broadcatcher::Views
   def collection_select(object, method, collection, value_method, text_method)
     select :name => "#{object.class.name.split(/::/).last.downcase}_#{method}" do
       collection.each do |item|
-        if item.send(value_method) == object.send(method).id
+        if item.send(value_method) == object.send(method).object_id
           option(:value => item.send(value_method), :selected => 'selected') { item.send(text_method) }
         else
           option(:value => item.send(value_method)) { item.send(text_method) }
